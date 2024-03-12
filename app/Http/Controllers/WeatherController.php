@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -58,5 +59,29 @@ class WeatherController extends Controller
         }
 
         return $weatherData;
+    }
+
+    /**
+     * Get weather statistics
+     *
+     * Get weather statistics
+     *
+     * @param  string  $city  The name of the city for which weather statistics should be retrieved.
+     */
+    public function getWeatherStatistics(string $city): JsonResponse
+    {
+
+        $response = Http::get('http://api.weatherapi.com/v1/forecast.json?key='.env('WEATHER_API_KEY').'&q='.$city.'&aqi=no&alerts=no');
+
+        $data = json_decode($response->body(), true);
+
+        $response = response()->json([
+            'max_temp' => $data['forecast']['forecastday'][0]['day']['maxtemp_c'],
+            'min_temp' => $data['forecast']['forecastday'][0]['day']['mintemp_c'],
+            'avg_temp' => $data['forecast']['forecastday'][0]['day']['avgtemp_c'],
+            'condition' => $data['forecast']['forecastday'][0]['day']['condition']['text'],
+        ]);
+
+        return $response;
     }
 }

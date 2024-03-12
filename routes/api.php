@@ -22,3 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/weather/{city}', [WeatherController::class, 'getWeatherDataByCityName']);
 
 Route::post('/weather/bulk', [WeatherController::class, 'getWeatherDataForMultipleCities']);
+
+Route::get('/weather/statistics/{city}', [WeatherController::class, 'getWeatherStatistics']);
