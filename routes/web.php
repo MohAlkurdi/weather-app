@@ -19,3 +19,5 @@ Route::get('/', function () {
 });
 
 Route::get('/live', LiveWeather::class);
+
+Route::view('/live-radar', 'live-radar');
