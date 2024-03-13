@@ -1,66 +1,312 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Weather App
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Features:
 
-## About Laravel
+-   Get current weather information for a given city
+-   Get current weather information for multiple cities
+-   Get weather statistics
+-   Display live weather stats
+-   Display a live weather map
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## installation
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### prerequisite
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   PHP 8.2 or higher
+-   composer
+-   MYSQL
 
-## Learning Laravel
+### install
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. Clone the repository
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```bash
+git clone https://github.com/MohAlkurdi/weather-app.git
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. Configure Environment Variables:
 
-## Laravel Sponsors
+```bash
+cp .env.example .env
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+**Don't forget to add your credentials for [weatherAPI](https://www.weatherapi.com/) and [windy](https://api.windy.com/)**
 
-### Premium Partners
+```bash
+WEATHER_API_KEY=<WEATHER_API_KEY>
+WINDY_API_KEY=<WINDY_API_KEY>
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+3. Install Composer Dependencies:
 
-## Contributing
+```bash
+composer install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+4. Generate Application Key:
 
-## Code of Conduct
+```bash
+php artisan key:generate
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+5. Start the Development Server:
 
-## Security Vulnerabilities
+```bash
+php artisan serve
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+-   Laravel application should now be accessible at http://localhost:8000
 
-## License
+## API Reference
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Get Weather Information By City Name
+
+```http
+GET /api/weather/:city
+```
+
+| Parameter | Type     | Description             |
+| :-------- | :------- | :---------------------- |
+| `city`    | `string` | **Required**. City Name |
+
+-   The app will check the cache first, if not found, it will call the API
+
+    <details>
+      <summary>Response</summary>
+
+```json
+{
+    "location": {
+        "name": "Jeddah",
+        "region": "Makkah",
+        "country": "Saudi Arabia",
+        "lat": 21.52,
+        "lon": 39.22,
+        "tz_id": "Asia/Riyadh",
+        "localtime_epoch": 1710282423,
+        "localtime": "2024-03-13 1:27"
+    },
+    "current": {
+        "last_updated_epoch": 1710281700,
+        "last_updated": "2024-03-13 01:15",
+        "temp_c": 28,
+        "temp_f": 82.4,
+        "is_day": 0,
+        "condition": {
+            "text": "Clear",
+            "icon": "//cdn.weatherapi.com/weather/64x64/night/113.png",
+            "code": 1000
+        },
+        "wind_mph": 3.8,
+        "wind_kph": 6.1,
+        "wind_degree": 340,
+        "wind_dir": "NNW",
+        "pressure_mb": 1012,
+        "pressure_in": 29.88,
+        "precip_mm": 0,
+        "precip_in": 0,
+        "humidity": 48,
+        "cloud": 0,
+        "feelslike_c": 30,
+        "feelslike_f": 86.1,
+        "vis_km": 10,
+        "vis_miles": 6,
+        "uv": 1,
+        "gust_mph": 8.3,
+        "gust_kph": 13.3
+    }
+}
+```
+
+</details>
+
+---
+
+### Get Weather Information For Multiple Cities
+
+```http
+post /api/weather/bulk
+```
+
+-   **Request Body**
+
+```json
+{
+    "cities": ["Makkah", "Riyadh", "Jeddah"]
+}
+```
+
+<details>
+  <summary>Response</summary>
+
+```json
+[
+    {
+        "location": {
+            "name": "Makkah",
+            "region": "Makkah",
+            "country": "Saudi Arabia",
+            "lat": 21.43,
+            "lon": 39.83,
+            "tz_id": "Asia/Riyadh",
+            "localtime_epoch": 1710283965,
+            "localtime": "2024-03-13 1:52"
+        },
+        "current": {
+            "last_updated_epoch": 1710283500,
+            "last_updated": "2024-03-13 01:45",
+            "temp_c": 28,
+            "temp_f": 82.4,
+            "is_day": 0,
+            "condition": {
+                "text": "Clear",
+                "icon": "//cdn.weatherapi.com/weather/64x64/night/113.png",
+                "code": 1000
+            },
+            "wind_mph": 3.8,
+            "wind_kph": 6.1,
+            "wind_degree": 340,
+            "wind_dir": "NNW",
+            "pressure_mb": 1012,
+            "pressure_in": 29.88,
+            "precip_mm": 0,
+            "precip_in": 0,
+            "humidity": 48,
+            "cloud": 0,
+            "feelslike_c": 29.7,
+            "feelslike_f": 85.5,
+            "vis_km": 10,
+            "vis_miles": 6,
+            "uv": 1,
+            "gust_mph": 8.3,
+            "gust_kph": 13.3
+        }
+    },
+    {
+        "location": {
+            "name": "Riyadh",
+            "region": "Ar Riyad",
+            "country": "Saudi Arabia",
+            "lat": 24.64,
+            "lon": 46.77,
+            "tz_id": "Asia/Riyadh",
+            "localtime_epoch": 1710283879,
+            "localtime": "2024-03-13 1:51"
+        },
+        "current": {
+            "last_updated_epoch": 1710283500,
+            "last_updated": "2024-03-13 01:45",
+            "temp_c": 15,
+            "temp_f": 59,
+            "is_day": 0,
+            "condition": {
+                "text": "Clear",
+                "icon": "//cdn.weatherapi.com/weather/64x64/night/113.png",
+                "code": 1000
+            },
+            "wind_mph": 2.2,
+            "wind_kph": 3.6,
+            "wind_degree": 10,
+            "wind_dir": "N",
+            "pressure_mb": 1022,
+            "pressure_in": 30.18,
+            "precip_mm": 0,
+            "precip_in": 0,
+            "humidity": 33,
+            "cloud": 0,
+            "feelslike_c": 14.8,
+            "feelslike_f": 58.6,
+            "vis_km": 10,
+            "vis_miles": 6,
+            "uv": 1,
+            "gust_mph": 9.4,
+            "gust_kph": 15
+        }
+    },
+    {
+        "location": {
+            "name": "Jeddah",
+            "region": "Makkah",
+            "country": "Saudi Arabia",
+            "lat": 21.52,
+            "lon": 39.22,
+            "tz_id": "Asia/Riyadh",
+            "localtime_epoch": 1710283893,
+            "localtime": "2024-03-13 1:51"
+        },
+        "current": {
+            "last_updated_epoch": 1710283500,
+            "last_updated": "2024-03-13 01:45",
+            "temp_c": 28,
+            "temp_f": 82.4,
+            "is_day": 0,
+            "condition": {
+                "text": "Clear",
+                "icon": "//cdn.weatherapi.com/weather/64x64/night/113.png",
+                "code": 1000
+            },
+            "wind_mph": 3.8,
+            "wind_kph": 6.1,
+            "wind_degree": 340,
+            "wind_dir": "NNW",
+            "pressure_mb": 1012,
+            "pressure_in": 29.88,
+            "precip_mm": 0,
+            "precip_in": 0,
+            "humidity": 48,
+            "cloud": 0,
+            "feelslike_c": 30,
+            "feelslike_f": 86.1,
+            "vis_km": 10,
+            "vis_miles": 6,
+            "uv": 1,
+            "gust_mph": 8.3,
+            "gust_kph": 13.3
+        }
+    }
+]
+```
+
+</details>
+
+---
+
+### Get Weather Stats
+
+```http
+get /api/weather/statistics/:city
+```
+
+| Parameter | Type     | Description             |
+| :-------- | :------- | :---------------------- |
+| `city`    | `string` | **Required**. City Name |
+
+  <details>
+    <summary>Response</summary>
+
+```json
+{
+    "max_temp": 31.4,
+    "min_temp": 26.6,
+    "avg_temp": 28.5,
+    "condition": "Sunny"
+}
+```
+
+</details>
+
+## Live Weather stats & map
+
+### Live Weather Stats
+
+visit `http://localhost:8000/live?city=Makkah`
+
+![screenshot-20240313-005500](https://github.com/MohAlkurdi/Authficate-API/assets/64875290/06ebb301-e035-4a65-95a5-007e5729c87d)
+
+---
+
+### Live Radar Weather Map
+
+visit `http://localhost:8000/live-radar`
+
+![screenshot](https://github.com/MohAlkurdi/Authficate-API/assets/64875290/c153e538-bed7-48ac-b1ed-876fcb817bb5)
