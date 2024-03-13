@@ -310,3 +310,9 @@ visit `http://localhost:8000/live?city=Makkah`
 visit `http://localhost:8000/live-radar`
 
 ![screenshot](https://github.com/MohAlkurdi/Authficate-API/assets/64875290/c153e538-bed7-48ac-b1ed-876fcb817bb5)
+
+## Testing
+
+```bash
+php artisan test
+```
