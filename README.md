@@ -21,7 +21,7 @@
 1. Clone the repository
 
 ```bash
-git clone https://github.com/MohAlkurdi/weather-app.git
+git clone https://github.com/MohAlkurdi/weather-app.git && cd weather-app
 ```
 
 2. Configure Environment Variables:
@@ -71,7 +71,7 @@ GET /api/weather/:city
 
 -   The app will check the cache first, if not found, it will call the API
 
-    <details>
+<details>
       <summary>Response</summary>
 
 ```json
@@ -125,7 +125,7 @@ GET /api/weather/:city
 ### Get Weather Information For Multiple Cities
 
 ```http
-post /api/weather/bulk
+POST /api/weather/bulk
 ```
 
 -   **Request Body**
@@ -274,7 +274,7 @@ post /api/weather/bulk
 ### Get Weather Stats
 
 ```http
-get /api/weather/statistics/:city
+GET /api/weather/statistics/:city
 ```
 
 | Parameter | Type     | Description             |
